@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { User, Mail, FileText, Github, Linkedin, Twitter } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import { X } from "lucide-react";
 
 interface AppContentProps {
@@ -286,7 +286,35 @@ function SkillsContent() {
   );
 }
 
-function ContactContent() {
+import { Button } from "@/components/ui/button";
+import emailjs from "emailjs-com";
+import { useRef } from "react";
+
+export function ContactContent() {
+  const form = useRef<HTMLFormElement>(null);
+
+  const sendEmail = (e: any) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        process.env.NEXT_PUBLIC_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+        form.current!,
+        process.env.NEXT_PUBLIC_PUBLIC_KEY!
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          alert("Message sent successfully!");
+        },
+        (error) => {
+          console.log(error.text);
+          alert("Failed to send message.");
+        }
+      );
+  };
+
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Contact Me</h2>
@@ -299,13 +327,9 @@ function ContactContent() {
           <User className="h-5 w-5 text-gray-600" />
           <span>@rabinbhattarai</span>
         </div>
-        {/* <div className="flex items-center gap-3">
-          <Linkedin className="h-5 w-5 text-gray-600" />
-          <span>linkedin.com/in/johndoe</span>
-        </div> */}
       </div>
 
-      <form className="space-y-4">
+      <form ref={form} onSubmit={(e) => sendEmail(e)} className="space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <label htmlFor="name" className="text-sm font-medium">
@@ -313,7 +337,9 @@ function ContactContent() {
             </label>
             <input
               id="name"
+              name="from_name"
               type="text"
+              required
               className="w-full rounded-md border border-gray-300 p-2"
               placeholder="Your name"
             />
@@ -324,7 +350,9 @@ function ContactContent() {
             </label>
             <input
               id="email"
+              name="reply_to"
               type="email"
+              required
               className="w-full rounded-md border border-gray-300 p-2"
               placeholder="Your email"
             />
@@ -336,11 +364,13 @@ function ContactContent() {
           </label>
           <textarea
             id="message"
+            name="message"
+            required
             className="h-32 w-full rounded-md border border-gray-300 p-2"
             placeholder="Your message"
           ></textarea>
         </div>
-        <Button>Send Message</Button>
+        <Button type="submit">Send Message</Button>
       </form>
     </div>
   );
