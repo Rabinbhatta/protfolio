@@ -350,7 +350,7 @@ export function ContactContent() {
             </label>
             <input
               id="email"
-              name="reply_to"
+              name="email"
               type="email"
               required
               className="w-full rounded-md border border-gray-300 p-2"
