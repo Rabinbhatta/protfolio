@@ -337,7 +337,7 @@ export function ContactContent() {
             </label>
             <input
               id="name"
-              name="from_name"
+              name="name"
               type="text"
               required
               className="w-full rounded-md border border-gray-300 p-2"
