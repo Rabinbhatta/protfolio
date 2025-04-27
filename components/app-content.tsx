@@ -307,6 +307,7 @@ export function ContactContent() {
         (result) => {
           console.log(result.text);
           alert("Message sent successfully!");
+          e.reset();
         },
         (error) => {
           console.log(error.text);
@@ -377,82 +378,16 @@ export function ContactContent() {
 }
 
 function ResumeContent() {
-  const experience = [
-    {
-      company: "Tech Innovations Inc.",
-      position: "Senior Frontend Developer",
-      period: "2021 - Present",
-      description:
-        "Leading the frontend development team, implementing new features, and optimizing performance.",
-    },
-    {
-      company: "Digital Solutions LLC",
-      position: "Full Stack Developer",
-      period: "2018 - 2021",
-      description:
-        "Developed and maintained web applications using React, Node.js, and MongoDB.",
-    },
-    {
-      company: "WebCraft Agency",
-      position: "Junior Developer",
-      period: "2016 - 2018",
-      description:
-        "Assisted in the development of client websites and learned various web technologies.",
-    },
-  ];
-
-  const education = [
-    {
-      institution: "University of Technology",
-      degree: "Master of Computer Science",
-      period: "2014 - 2016",
-    },
-    {
-      institution: "State College",
-      degree: "Bachelor of Science in Web Development",
-      period: "2010 - 2014",
-    },
-  ];
-
   return (
     <div className="space-y-6">
-      <div className="flex justify-between">
-        <h2 className="text-xl font-semibold">Resume</h2>
-        <Button variant="outline" size="sm">
-          <FileText className="mr-2 h-4 w-4" />
-          Download PDF
-        </Button>
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Experience</h3>
-        <div className="space-y-4">
-          {experience.map((job, index) => (
-            <div key={index} className="rounded-lg border p-4">
-              <div className="flex flex-wrap justify-between">
-                <h4 className="font-semibold">{job.position}</h4>
-                <span className="text-sm text-gray-600">{job.period}</span>
-              </div>
-              <p className="text-sm text-gray-600">{job.company}</p>
-              <p className="mt-2 text-sm">{job.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Education</h3>
-        <div className="space-y-4">
-          {education.map((edu, index) => (
-            <div key={index} className="rounded-lg border p-4">
-              <div className="flex flex-wrap justify-between">
-                <h4 className="font-semibold">{edu.degree}</h4>
-                <span className="text-sm text-gray-600">{edu.period}</span>
-              </div>
-              <p className="text-sm text-gray-600">{edu.institution}</p>
-            </div>
-          ))}
-        </div>
+      <div className="flex flex-col w-40  ">
+        {/* PDF File Icon to Open in New Tab */}
+        <a href="/rabinbhattarai.pdf" target="_blank">
+          <div className="p-5 border rounded-sm">
+            <FileText size={100} />
+            <p>Resume.pdf</p>
+          </div>
+        </a>
       </div>
     </div>
   );

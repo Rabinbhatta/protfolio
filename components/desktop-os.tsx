@@ -26,6 +26,7 @@ export function DesktopOS({
 }: DesktopOSProps) {
   const [showStartMenu, setShowStartMenu] = useState(false);
   const [minimized, setMinimized] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   const startMenuRef = useRef<HTMLDivElement>(null);
   const appWindowRef = useRef<HTMLDivElement>(null);
@@ -66,7 +67,7 @@ export function DesktopOS({
         !appWindowRef.current.contains(event.target as Node)
       ) {
         // Uncomment below line if you want to close the window when clicked outside
-        onCloseApp();
+        // onCloseApp();
       }
     };
 
@@ -74,7 +75,7 @@ export function DesktopOS({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onCloseApp]);
+  }, []);
 
   return (
     <div
@@ -121,17 +122,62 @@ export function DesktopOS({
               </div>
             </Button>
 
-            {/* Taskbar App Icon */}
+            {/* Taskbar App Icon with Preview */}
             {openApp && (
-              <button
-                className="ml-2 flex items-center gap-2 rounded px-3 py-1 text-white hover:bg-gray-300"
-                onClick={() => setMinimized(false)}
+              <div
+                className="relative"
+                onMouseEnter={() => setShowPreview(true)}
+                onMouseLeave={() => setShowPreview(false)}
               >
-                {getIcon(
-                  apps.find((a) => a.id === openApp)?.icon || "",
-                  "text-black"
+                <button
+                  className="ml-2 flex items-center gap-2 rounded px-3 py-1 text-white hover:bg-gray-300"
+                  onClick={() => setMinimized(false)}
+                >
+                  {getIcon(
+                    apps.find((a) => a.id === openApp)?.icon || "",
+                    "text-black"
+                  )}
+                </button>
+
+                {/* Mini Window Preview */}
+                {showPreview && (
+                  <div className="absolute bottom-10 left-0 z-50 w-64 rounded border border-gray-400 bg-white shadow-lg">
+                    <div className="flex items-center justify-between bg-gray-800 px-3 py-1">
+                      <span className="text-xs text-white">
+                        {apps.find((app) => app.id === openApp)?.name}
+                      </span>
+                      <div className="flex items-center space-x-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-5 w-5 p-0 hover:bg-gray-700"
+                          onClick={() => {
+                            setMinimized(true);
+                            setShowPreview(false);
+                          }}
+                        >
+                          <Minus className="h-3 w-3 text-white" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-5 w-5 p-0 hover:bg-red-700"
+                          onClick={() => {
+                            setMinimized(false);
+                            onCloseApp();
+                            setShowPreview(false);
+                          }}
+                        >
+                          <X className="h-3 w-3 text-white" />
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="h-32 overflow-hidden p-2 text-xs text-gray-800">
+                      <AppContent appId={openApp} />
+                    </div>
+                  </div>
                 )}
-              </button>
+              </div>
             )}
           </div>
           <div className="ml-auto flex items-center text-sm text-black">
