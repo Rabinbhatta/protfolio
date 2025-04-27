@@ -307,7 +307,7 @@ export function ContactContent() {
         (result) => {
           console.log(result.text);
           alert("Message sent successfully!");
-          e.reset();
+          form.current?.reset();
         },
         (error) => {
           console.log(error.text);
