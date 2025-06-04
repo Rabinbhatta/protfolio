@@ -32,7 +32,7 @@ function AboutContent() {
         <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-6 sm:space-y-0">
           <div className="h-32 w-32 overflow-hidden rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 shadow-xl transform transition-all duration-300 hover:scale-105">
             <img
-              src="/placeholder.svg?height=128&width=128"
+              src="/pp.jpg?height=128&width=128"
               alt="Profile"
               className="h-full w-full object-cover"
             />
